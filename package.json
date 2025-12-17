@@ -1,0 +1,19 @@
+{
+  "name": "the-crud-api",
+  "version": "1.0.0",
+  "description": "A small api that showcases exposing an arbitrary object through crud operations",
+  "keywords": [
+    "api",
+    "crud",
+    "typescript",
+    "express"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

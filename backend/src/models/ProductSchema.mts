@@ -7,4 +7,4 @@ const productSchema = new Schema({
   price: { type: Number, required: true },
 });
 
-export const Product = model("product", productSchema);
+export const ProductModel = model("product", productSchema);

@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-const productSchema = new Schema({
+export const productSchema = new Schema({
   id: { type: Number, required: true },
   name: { type: String, required: true },
   description: { type: String, required: false },

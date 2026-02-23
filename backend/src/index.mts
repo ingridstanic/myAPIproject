@@ -3,6 +3,7 @@ import express, { json } from "express";
 import mongoose, { Error } from "mongoose";
 import cors from "cors";
 import { productRouter } from "./routes/productRouter.mjs";
+import { orderRouter } from "./routes/orderRouter.mjs";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(
 app.use(json());
 
 app.use("/products", productRouter);
+app.use("/orders", orderRouter);
 
 app.listen(port, async (error) => {
   try {

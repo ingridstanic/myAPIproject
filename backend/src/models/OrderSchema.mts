@@ -4,7 +4,7 @@ import { productSchema } from "./ProductSchema.mjs";
 const OrderSchema = new Schema({
   orderNumber: { type: Number, required: true },
   date: { type: Number, required: true },
-  products: [productSchema],
+  productsOrdered: [productSchema],
 });
 
 export const OrderModel = model("order", OrderSchema);

@@ -19,22 +19,25 @@ export const getOrders = async (
   const ordersFromDB = await OrderModel.find();
   let copiedList: OrderDTO[] = ordersFromDB.map((order) => {
     return {
-      fullName: order.fullName,
-      orderNumber: order.orderNumber,
+      name: order.name,
       date: order.date,
-      productsOrdered: order.productsOrdered.map((product) => {
+      productsOrdered: order.productsOrdered.map((items) => {
         return {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-        } satisfies ProductDTO;
+          product: {
+            id: items.product.id,
+            title: items.product.title,
+            price: items.product.price,
+          } satisfies ProductDTO,
+          quantity: items.quantity,
+        };
       }),
     } satisfies OrderDTO;
   });
 
+  //behöver ses igenom funkar inte som jag villa
   if (search) {
     copiedList = copiedList.filter((product) => {
-      product.orderNumber.toString().startsWith(search as string);
+      product.name.toLowerCase().startsWith(search as string);
     });
   }
 
@@ -44,12 +47,26 @@ export const getOrders = async (
       if (a.date > b.date) return 1;
       return 0;
     });
+  } else if (sort && sort === "desc") {
+    copiedList.sort((a, b) => {
+      if (a.date < b.date) return 1;
+      if (a.date > b.date) return -1;
+      return 0;
+    });
   }
 
   return copiedList;
 };
 
-export const addOrder = async (order: Order) => {};
+export const addOrder = async (order: Order) => {
+  const newOrder = {
+    name: order.name,
+    date: Date.now(),
+    productsOrdered: order.productsOrdered,
+  };
+
+  return await OrderModel.create(newOrder);
+};
 
 export const updateOrder = async (order: Order) => {};
 

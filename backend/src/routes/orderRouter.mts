@@ -5,6 +5,7 @@ import {
   getOrders,
   updateOrder,
 } from "../controllers/OrderController.mjs";
+import type { Order } from "../models/Order.mjs";
 
 export const orderRouter = express.Router();
 
@@ -28,56 +29,54 @@ orderRouter.post("/", async (req, res) => {
     }
 
     const newOrder = await addOrder(order);
-    res
-      .status(200)
-      .json({
-        message:
-          "Your order has been successfully placed and is now being processed.",
-        newOrder,
-      });
+    res.status(200).json({
+      message:
+        "Your order has been successfully placed and is now being processed.",
+      newOrder,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal error", error });
   }
 });
 
-orderRouter.patch("/:orderNumber", async (req, res) => {
-  try {
-    const { orderNumber } = req.params;
-    const { order } = req.body;
+// orderRouter.patch("/:orderNumber", async (req, res) => {
+//   try {
+//     const { orderNumber } = req.params;
+//     const { order } = req.body;
 
-    if (+orderNumber !== order.orderNumber) {
-      return res.status(400).json({ message: " in body does not" });
-    }
+//     if (+orderNumber !== order.orderNumber) {
+//       return res.status(400).json({ message: " in body does not" });
+//     }
 
-    const success = await updateOrder(order);
+//     const success = await updateOrder(order);
 
-    if (success) {
-      res.status(200).json({ message: "Order updated", success });
-    } else {
-      res.status(404).json({ message: "Could not update order" });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal error", error });
-  }
-});
+//     if (success) {
+//       res.status(200).json({ message: "Order updated", success });
+//     } else {
+//       res.status(404).json({ message: "Could not update order" });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Internal error", error });
+//   }
+// });
 
-orderRouter.delete("/:orderNumber", async (req, res) => {
-  try {
-    const { orderNumber } = req.params;
-    const success = await deleteOrder(orderNumber);
+// orderRouter.delete("/:orderNumber", async (req, res) => {
+//   try {
+//     const { orderNumber } = req.params;
+//     const success = await deleteOrder(orderNumber);
 
-    if (success) {
-      res.status(200).send("Order successfully deleted");
-    } else {
-      res.status(400).json({
-        message: "Could not delete order with ordernumber: ",
-        orderNumber,
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal error", error });
-  }
-});
+//     if (success) {
+//       res.status(200).send("Order successfully deleted");
+//     } else {
+//       res.status(400).json({
+//         message: "Could not delete order with ordernumber: ",
+//         orderNumber,
+//       });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Internal error", error });
+//   }
+// });

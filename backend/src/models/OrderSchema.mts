@@ -7,7 +7,7 @@ const OrderSchema = new Schema({
   date: { type: Date, required: true },
   productsOrdered: [
     {
-      product: [productSchema],
+      product: { type: productSchema, required: true },
       quantity: { type: Number, required: true },
     },
   ],

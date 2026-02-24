@@ -3,5 +3,5 @@ import type { ProductDTO } from "./ProductDTO.mjs";
 export type Order = {
   name: string;
   date: number;
-  productsOrdered: ProductDTO[];
+  productsOrdered: { product: ProductDTO; quantity: number }[];
 };

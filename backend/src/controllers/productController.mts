@@ -19,27 +19,27 @@ export const getProductsWithQuery = async (
   let copiedList: ProductDTO[] = productsFromDB.map((product) => {
     return {
       id: product.id,
-      name: product.name,
+      title: product.title,
       price: product.price,
     } satisfies ProductDTO;
   });
 
   if (search) {
     copiedList = copiedList.filter((product) =>
-      product.name.toLowerCase().startsWith(search as string),
+      product.title.toLowerCase().startsWith(search as string),
     );
   }
 
   if (sort && (sort as string) === "asc") {
     copiedList.sort((a, b) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+      if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+      if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
       return 0;
     });
   } else if (sort && (sort as string) === "desc") {
     copiedList.sort((a, b) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) return 1;
-      if (a.name.toLowerCase() > b.name.toLowerCase()) return -1;
+      if (a.title.toLowerCase() < b.title.toLowerCase()) return 1;
+      if (a.title.toLowerCase() > b.title.toLowerCase()) return -1;
       return 0;
     });
   }
@@ -48,20 +48,18 @@ export const getProductsWithQuery = async (
 };
 
 export const createProduct = async (
-  name: string,
+  title: string,
   price: number,
   description: string,
 ) => {
   const newProduct = {
     id: Date.now(),
-    name,
+    title,
     price,
     description,
   };
 
-  const createdProduct = await ProductModel.create(newProduct);
-
-  return createdProduct;
+  return await ProductModel.create(newProduct);
 };
 
 export const updateProduct = async (product: Product) => {

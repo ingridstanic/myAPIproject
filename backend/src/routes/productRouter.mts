@@ -24,16 +24,16 @@ productRouter.get("/", async (req, res) => {
 
 productRouter.post("/", async (req, res) => {
   try {
-    const { name, price, description } = req.body;
+    const { title, price, description } = req.body;
 
-    if (name === "" || price === "") {
+    if (title === "" || price === "") {
       return res
         .status(400)
         .json({ message: "Name, price or both in body is empty" });
     }
     const descriptionToSave = description || "No description";
 
-    const newProduct = await createProduct(name, price, descriptionToSave);
+    const newProduct = await createProduct(title, price, descriptionToSave);
 
     res.status(201).json(newProduct);
   } catch (error) {

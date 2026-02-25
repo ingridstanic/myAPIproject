@@ -34,11 +34,10 @@ export const getOrders = async (
     } satisfies OrderDTO;
   });
 
-  //behöver ses igenom funkar inte som jag villa
   if (search) {
-    copiedList = copiedList.filter((product) => {
-      product.name.toLowerCase().startsWith(search as string);
-    });
+    copiedList = copiedList.filter((product) =>
+      product.name.toLowerCase().includes(search as string),
+    );
   }
 
   if (sort && sort === "asc") {

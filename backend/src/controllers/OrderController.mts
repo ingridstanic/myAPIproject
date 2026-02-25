@@ -26,6 +26,7 @@ export const getOrders = async (
           product: {
             id: items.product.id,
             title: items.product.title,
+            description: items.product.description || "No Content",
             price: items.product.price,
           } satisfies ProductDTO,
           quantity: items.quantity,

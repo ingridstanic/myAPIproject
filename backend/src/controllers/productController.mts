@@ -26,8 +26,9 @@ export const getProductsWithQuery = async (
   });
 
   if (search) {
+    search = (search as string).toLowerCase();
     copiedList = copiedList.filter((product) =>
-      product.title.toLowerCase().startsWith(search as string),
+      product.title.toLowerCase().includes(search as string),
     );
   }
 

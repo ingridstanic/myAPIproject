@@ -49,7 +49,11 @@ export const addProduct = async (product: Product) => {
   try {
     const response = await fetch("http://localhost:3000/products", {
       method: "POST",
-      body: JSON.stringify({ product }),
+      body: JSON.stringify({
+        title: product.title,
+        description: product.description,
+        price: product.price,
+      }),
       headers: { "content-type": "application/json" },
     });
 

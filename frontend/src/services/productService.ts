@@ -34,3 +34,41 @@ export const getProductsSorted = async () => {
     return [];
   }
 };
+
+export const getproductById = async (id: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/products/${id}`);
+    const data: Product = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Could not fetch data", error);
+  }
+};
+
+export const deleteProduct = async (id: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/products/${id}`, {
+      method: "DELETE",
+    });
+    response.ok;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+export const updateProduct = async (id: number, product: Product) => {
+  const response = await fetch(`http://localhost:3000/products/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({ product }),
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+
+  if (response) {
+    return response.ok;
+  } else {
+    return false;
+  }
+};

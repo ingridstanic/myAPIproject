@@ -22,7 +22,7 @@ export const createHtml = (products: Product[]) => {
     price.innerHTML = product.price.toString() + " SEK";
     id.className = "idContainer";
     id.innerHTML = "id: " + product.id.toString();
-    removeBtn.className = "RemoveBtn";
+    removeBtn.className = "removeBtn";
     removeBtn.innerHTML = "DELETE";
 
     removeBtn.addEventListener("click", async () => {

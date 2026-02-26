@@ -33,14 +33,14 @@ body {
 
   input {
     height: 2.5rem;
-    width: 200px;
+    width: 250px;
     border: none;
     border-radius: 5px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   }
 
   input:focus {
-    outline: 2px solid #00f5ff;
+    outline: 2px solid #a020f0;
   }
 }
 
@@ -103,10 +103,28 @@ button:focus-visible {
     border-radius: 5px;
     position: relative;
 
-    .buyBtn {
+    .removeBtn {
       position: absolute;
       bottom: 1rem;
       right: 1rem;
     }
   }
+}
+
+.form-container {
+  display: flex;
+  gap: 2rem;
+}
+
+#addProduct,
+#updateProduct {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  width: 300px;
+  padding: 1rem;
+  margin-bottom: 3rem;
 }

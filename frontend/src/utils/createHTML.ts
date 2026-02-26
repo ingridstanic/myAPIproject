@@ -15,6 +15,7 @@ export const createHtml = (products: Product[]) => {
     const price = document.createElement("strong");
     const id = document.createElement("p");
     const removeBtn = document.createElement("button");
+    const editBtn = document.createElement("button");
 
     container.className = "container";
     title.innerHTML = product.title;
@@ -24,6 +25,8 @@ export const createHtml = (products: Product[]) => {
     id.innerHTML = "id: " + product.id.toString();
     removeBtn.className = "removeBtn";
     removeBtn.innerHTML = "DELETE";
+    editBtn.className = "editBtn";
+    editBtn.innerHTML = "EDIT";
 
     removeBtn.addEventListener("click", async () => {
       const removed = await deleteProduct(product.id);
@@ -36,11 +39,27 @@ export const createHtml = (products: Product[]) => {
       }
     });
 
+    editBtn.addEventListener("click", () => {
+      const form = document.getElementById("updateProduct");
+
+      (document.getElementById("title") as HTMLInputElement).value =
+        product.title;
+      (document.getElementById("description") as HTMLInputElement).value =
+        product.description;
+      (document.getElementById("price") as HTMLInputElement).value =
+        product.price.toString();
+
+      if (form) {
+        form.style.visibility = "visible";
+      }
+    });
+
     container.appendChild(title);
     container.appendChild(description);
     container.appendChild(price);
     container.appendChild(id);
     container.appendChild(removeBtn);
+    container.appendChild(editBtn);
 
     productContainer?.appendChild(container);
   });

@@ -122,6 +122,19 @@ button:focus-visible {
       bottom: 5rem;
       right: 1rem;
     }
+
+    .edit-disabled {
+      position: absolute;
+      bottom: 5rem;
+      right: 1rem;
+      background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+      color: #777;
+      border: 2px solid #444;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+      cursor: not-allowed;
+      opacity: 0.85;
+      transition: 0.3s ease;
+    }
   }
 }
 

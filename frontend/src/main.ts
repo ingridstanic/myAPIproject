@@ -1,4 +1,6 @@
+import type { Product } from "./models/Product";
 import {
+  addProduct,
   getProducts,
   getProductsBySearch,
   getProductsSorted,
@@ -23,5 +25,25 @@ document
 
 document.getElementById("sortBtn")?.addEventListener("click", async () => {
   const data = await getProductsSorted();
+  createHtml(data);
+});
+
+document.getElementById("addProduct")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const title = (document.getElementById("title") as HTMLInputElement).value;
+  const description = (
+    document.getElementById("description") as HTMLInputElement
+  ).value;
+  const price = (document.getElementById("price") as HTMLInputElement).value;
+
+  const newProduct: Product = {
+    id: Date.now(),
+    title,
+    description,
+    price: +price,
+  };
+
+  await addProduct(newProduct);
+  const data = await getProducts();
   createHtml(data);
 });

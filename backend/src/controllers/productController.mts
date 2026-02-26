@@ -49,6 +49,10 @@ export const getProductsWithQuery = async (
   return copiedList;
 };
 
+export const getProductById = async (id: string) => {
+  await ProductModel.findOne({ id: +id });
+};
+
 export const createProduct = async (
   title: string,
   price: number,

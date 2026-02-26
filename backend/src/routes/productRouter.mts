@@ -3,6 +3,7 @@ import type { ProductDTO } from "../models/ProductDTO.mjs";
 import {
   createProduct,
   deleteProduct,
+  getProductById,
   getProductsWithQuery,
   updateProduct,
 } from "../controllers/productController.mjs";
@@ -19,6 +20,17 @@ productRouter.get("/", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal error", error });
+  }
+});
+
+productRouter.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await getProductById(id);
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal erro", error });
   }
 });
 

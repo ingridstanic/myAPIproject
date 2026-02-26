@@ -29,7 +29,16 @@ body {
 
 #app {
   place-items: center;
+  width: 100%;
   margin-top: 2rem;
+
+  textarea {
+    width: 250px;
+    height: 3rem;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  }
 
   input {
     height: 2.5rem;
@@ -89,7 +98,7 @@ button:focus-visible {
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.5em;
-  width: 100vw;
+  width: 95%;
   margin-top: 2rem;
 
   .container {
@@ -97,7 +106,7 @@ button:focus-visible {
     flex-direction: column;
     justify-content: space-between;
     width: 18%;
-    min-height: 200px;
+    min-height: 250px;
     padding: 0.5rem;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
@@ -106,6 +115,11 @@ button:focus-visible {
     .removeBtn {
       position: absolute;
       bottom: 1rem;
+      right: 1rem;
+    }
+    .editBtn {
+      position: absolute;
+      bottom: 5rem;
       right: 1rem;
     }
   }
@@ -127,4 +141,8 @@ button:focus-visible {
   width: 300px;
   padding: 1rem;
   margin-bottom: 3rem;
+}
+
+#updateProduct {
+  visibility: hidden;
 }

@@ -45,12 +45,28 @@ export const getproductById = async (id: number) => {
   }
 };
 
+export const addProduct = async (product: Product) => {
+  try {
+    const response = await fetch("http://localhost:3000/products", {
+      method: "POST",
+      body: JSON.stringify({ product }),
+      headers: { "content-type": "application/json" },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Could not create product", error);
+    return false;
+  }
+};
+
 export const deleteProduct = async (id: number) => {
   try {
     const response = await fetch(`http://localhost:3000/products/${id}`, {
       method: "DELETE",
     });
-    response.ok;
+    return response.ok;
   } catch (error) {
     console.error(error);
     return false;

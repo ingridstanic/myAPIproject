@@ -20,7 +20,7 @@ export const getProductsWithQuery = async (
     return {
       id: product.id,
       title: product.title,
-      description: product.description || "No Conent",
+      description: product.description || "",
       price: product.price,
     } satisfies ProductDTO;
   });

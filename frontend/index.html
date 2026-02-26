@@ -11,26 +11,26 @@
       <div class="form-container">
         <form id="addProduct">
           <h1>ADD PRODUCT</h1>
-          <input id="title" type="text" placeholder="TITLE" />
+          <input id="addTitle" type="text" placeholder="TITLE" required />
           <input
-            id="decription"
+            id="addDescription"
             type="text"
-            placeholder="DESPCRIPTION (OPTIONAL I THINK)"
+            placeholder="DESPCRIPTION (OPTIONAL)"
           />
-          <input id="price" type="number" placeholder="PRICE" />
+          <input id="addPrice" type="number" placeholder="PRICE" required />
           <button>ADD</button>
         </form>
         <form id="updateProduct">
           <h1>UPDATE PRODUCT</h1>
-          <input id="id" type="number" placeholder="ID" />
           <input id="title" type="text" placeholder="TITLE" />
-          <input
-            id="decription"
+          <textarea
+            id="description"
             type="text"
-            placeholder="DESPCRIPTION (OPTIONAL I THINK)"
-          />
+            placeholder="DESPCRIPTION (OPTIONAL)"
+          >
+          </textarea>
           <input id="price" type="number" placeholder="PRICE" />
-          <button>ADD</button>
+          <button>UPDATE</button>
         </form>
       </div>
 

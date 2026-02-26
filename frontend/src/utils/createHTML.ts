@@ -1,5 +1,12 @@
 import type { Product } from "../models/Product";
-import { deleteProduct, getProducts } from "../services/productService";
+import {
+  deleteProduct,
+  getProducts,
+  updateProduct,
+} from "../services/productService";
+
+let currentID = 0;
+const form = document.getElementById("updateProduct");
 
 export const createHtml = (products: Product[]) => {
   const productContainer = document.getElementById("productContainer");
@@ -18,6 +25,7 @@ export const createHtml = (products: Product[]) => {
     const editBtn = document.createElement("button");
 
     container.className = "container";
+    container.id = `id${product.id}`;
     title.innerHTML = product.title;
     description.innerHTML = product.description;
     price.innerHTML = product.price.toString() + " SEK";
@@ -40,7 +48,9 @@ export const createHtml = (products: Product[]) => {
     });
 
     editBtn.addEventListener("click", () => {
-      const form = document.getElementById("updateProduct");
+      currentID = product.id;
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
 
       (document.getElementById("title") as HTMLInputElement).value =
         product.title;
@@ -51,6 +61,11 @@ export const createHtml = (products: Product[]) => {
 
       if (form) {
         form.style.visibility = "visible";
+        container.style.visibility = "hidden";
+        document.querySelectorAll(".editBtn").forEach((btn) => {
+          (btn as HTMLButtonElement).disabled = true;
+          btn.className = "edit-disabled";
+        });
       }
     });
 
@@ -64,3 +79,32 @@ export const createHtml = (products: Product[]) => {
     productContainer?.appendChild(container);
   });
 };
+
+document
+  .getElementById("updateProduct")
+  ?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const title = (document.getElementById("title") as HTMLInputElement).value;
+    const description = (
+      document.getElementById("description") as HTMLInputElement
+    ).value;
+    const price = (document.getElementById("price") as HTMLInputElement).value;
+
+    const updatedProduct: Product = {
+      id: currentID,
+      title: title,
+      description: description,
+      price: +price,
+    };
+
+    await updateProduct(currentID, updatedProduct);
+    const data = await getProducts();
+    createHtml(data);
+
+    currentID = 0;
+
+    if (form) {
+      form.style.visibility = "hidden";
+    }
+  });

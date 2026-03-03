@@ -40,15 +40,15 @@ orderRouter.post("/", async (req, res) => {
   }
 });
 
-orderRouter.patch("/:date", async (req, res) => {
+orderRouter.patch("/:orderNumber", async (req, res) => {
   try {
-    const { date } = req.params;
+    const { orderNumber } = req.params;
     const { order } = req.body;
 
-    if (+date !== order.date) {
-      return res
-        .status(400)
-        .json({ message: "Date in body does not match date in parameter" });
+    if (+orderNumber !== order.orderNumber) {
+      return res.status(400).json({
+        message: "Ordernumber in body does not match ordernumber in parameter",
+      });
     }
 
     const success = await updateOrder(order);
@@ -64,17 +64,17 @@ orderRouter.patch("/:date", async (req, res) => {
   }
 });
 
-orderRouter.delete("/:date", async (req, res) => {
+orderRouter.delete("/:orderNumber", async (req, res) => {
   try {
-    const { date } = req.params;
-    const success = await deleteOrder(date);
+    const { orderNumber } = req.params;
+    const success = await deleteOrder(+orderNumber);
 
     if (success) {
       res.status(200).send("Order successfully deleted");
     } else {
       res.status(400).json({
-        message: "Could not delete order with the date: ",
-        date,
+        message: "Could not delete order with ordernumber: ",
+        orderNumber,
       });
     }
   } catch (error) {

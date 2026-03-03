@@ -20,6 +20,7 @@ export const getOrders = async (
   let copiedList: OrderDTO[] = ordersFromDB.map((order) => {
     return {
       name: order.name,
+      orderNumber: order.orderNumber,
       date: order.date,
       productsOrdered: order.productsOrdered.map((items) => {
         return {
@@ -61,7 +62,8 @@ export const getOrders = async (
 export const addOrder = async (order: Order) => {
   const newOrder = {
     name: order.name,
-    date: Date.now(),
+    orderNumber: Date.now(),
+    date: new Date(),
     productsOrdered: order.productsOrdered,
   };
 
@@ -71,16 +73,16 @@ export const addOrder = async (order: Order) => {
 export const updateOrder = async (order: Order) => {
   try {
     // Use findByIdAndUpdate to find the order by ID and update it
-    const updatedOrder = await OrderModel.findByIdAndUpdate(
+    const updatedOrder = await OrderModel.findOneAndUpdate(
+      { orderNumber: order.orderNumber },
       {
-        name: order.name,
-        date: order.date,
-        productsOrdered: order.productsOrdered,
+        $set: {
+          name: order.name,
+          productsOrdered: order.productsOrdered,
+        },
       },
-      order,
+      { new: true },
     );
-
-    // Return the updated order, or null if order was not found
     return updatedOrder;
   } catch (error) {
     console.error("Error updating order:", error);
@@ -88,13 +90,9 @@ export const updateOrder = async (order: Order) => {
   }
 };
 
-export const deleteOrder = async (orderNumber: string) => {
+export const deleteOrder = async (orderNumber: number) => {
   try {
-    // Use findByIdAndDelete to find and remove the order by ID
-    const deletedOrder = await OrderModel.findByIdAndDelete(orderNumber);
-
-    // Return true if order was found and deleted, false otherwise
-    return deletedOrder !== null;
+    return await OrderModel.findOneAndDelete({ orderNumber: orderNumber });
   } catch (error) {
     console.error("Error deleting order:", error);
     return false;

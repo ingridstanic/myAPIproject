@@ -40,43 +40,45 @@ orderRouter.post("/", async (req, res) => {
   }
 });
 
-// orderRouter.patch("/:orderNumber", async (req, res) => {
-//   try {
-//     const { orderNumber } = req.params;
-//     const { order } = req.body;
+orderRouter.patch("/:date", async (req, res) => {
+  try {
+    const { date } = req.params;
+    const { order } = req.body;
 
-//     if (+orderNumber !== order.orderNumber) {
-//       return res.status(400).json({ message: " in body does not" });
-//     }
+    if (+date !== order.date) {
+      return res
+        .status(400)
+        .json({ message: "Date in body does not match date in parameter" });
+    }
 
-//     const success = await updateOrder(order);
+    const success = await updateOrder(order);
 
-//     if (success) {
-//       res.status(200).json({ message: "Order updated", success });
-//     } else {
-//       res.status(404).json({ message: "Could not update order" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal error", error });
-//   }
-// });
+    if (success) {
+      res.status(200).json({ message: "Order updated", success });
+    } else {
+      res.status(404).json({ message: "Could not update order" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal error", error });
+  }
+});
 
-// orderRouter.delete("/:orderNumber", async (req, res) => {
-//   try {
-//     const { orderNumber } = req.params;
-//     const success = await deleteOrder(orderNumber);
+orderRouter.delete("/:date", async (req, res) => {
+  try {
+    const { date } = req.params;
+    const success = await deleteOrder(date);
 
-//     if (success) {
-//       res.status(200).send("Order successfully deleted");
-//     } else {
-//       res.status(400).json({
-//         message: "Could not delete order with ordernumber: ",
-//         orderNumber,
-//       });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal error", error });
-//   }
-// });
+    if (success) {
+      res.status(200).send("Order successfully deleted");
+    } else {
+      res.status(400).json({
+        message: "Could not delete order with the date: ",
+        date,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal error", error });
+  }
+});

@@ -50,7 +50,13 @@ export const getProductsWithQuery = async (
 };
 
 export const getProductById = async (id: string) => {
-  await ProductModel.findOne({ id: +id });
+  try {
+    const product = await ProductModel.findOne({ id: +id });
+    return product;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 };
 
 export const createProduct = async (

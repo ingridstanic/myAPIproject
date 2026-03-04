@@ -13,28 +13,23 @@ export const productRouter = express.Router();
 productRouter.get("/", async (req, res) => {
   try {
     const { search, sort } = req.query;
-
     const products = await getProductsWithQuery(search, sort);
-
     res.status(200).json(products);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal error", error });
+    res.status(500).json({ error: "Failed to fetch products" });
   }
 });
 
 productRouter.get("/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const product = await getProductById(id);
-    if (product) {
-      res.status(200).json(product);
-    } else {
-      res.status(404).json({ message: "Could not find product with id: ", id });
+    const product = await getProductById(req.params.id);
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
     }
+    res.status(200).json(product);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal error", error });
+    res.status(500).json({ error: "Failed to fetch product" });
   }
 });
 
@@ -42,59 +37,54 @@ productRouter.post("/", async (req, res) => {
   try {
     const { title, price, description } = req.body;
 
-    if (title === "" || price === "") {
-      return res
-        .status(400)
-        .json({ message: "Name, price or both in body is empty" });
+    if (!title || !price) {
+      res.status(400).json({ error: "Title and price are required" });
+      return;
     }
-    const descriptionToSave = description || "No description";
 
-    const newProduct = await createProduct(title, price, descriptionToSave);
-
+    const newProduct = await createProduct(title, price, description || "");
     res.status(201).json(newProduct);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal error", error });
+    res.status(500).json({ error: "Failed to create product" });
   }
 });
 
 productRouter.patch("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { product } = req.body;
+    const { title, price, description } = req.body;
 
-    if (+id !== product.id) {
-      return res
-        .status(400)
-        .json({ message: "id in body does not match id in parameter" });
+    const product = await getProductById(id);
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
     }
-    const success = await updateProduct(product);
 
-    if (success) {
-      res.status(200).json({ message: "Product updated", success });
-    } else {
-      res.status(404).json({ message: "Could not update product" });
-    }
+    const updatedProduct = await updateProduct({
+      id: +id,
+      title: title || product.title,
+      price: price || product.price,
+      description: description || product.description,
+    });
+
+    res.status(200).json(updatedProduct);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal error", error });
+    res.status(500).json({ error: "Failed to update product" });
   }
 });
 
 productRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const success = await deleteProduct(id);
-
-    if (success) {
-      res.status(200).send("Product succesfully deleted");
-    } else {
-      res
-        .status(400)
-        .json({ message: "Could not delete product with id: ", id });
+    
+    const deletedProduct = await deleteProduct(id);
+    if (!deletedProduct) {
+      res.status(404).json({ error: "Product not found" });
+      return;
     }
+    
+    res.status(200).json({ message: "Product deleted successfully", product: deletedProduct });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal error", error });
+    res.status(500).json({ error: "Failed to delete product" });
   }
 });
